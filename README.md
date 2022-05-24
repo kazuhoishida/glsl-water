@@ -1,1 +1,1 @@
-# lab-2d-vite-template
+# glsl-water
