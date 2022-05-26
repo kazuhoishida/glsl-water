@@ -5,6 +5,7 @@ import { shaderMaterial } from "@react-three/drei"
 import { fragmentShader } from "./fragment.glsl"
 import { vertexShader } from "./vertex.glsl"
 import waterImg from "../images/about_picture.jpg"
+import conceptImg from "../images/concept_picture.jpg"
 import productImg from "../images/firstview_picture_4.jpg"
 import BgImg from "../images/bg-droplet.png"
 import FrontImg from "../images/front-droplet.png"
@@ -65,23 +66,38 @@ const Scene = ({ thumbnail, noiseFreq }) => {
 }
 
 export default function App() {
-  const imagesArr = [waterImg, productImg]
+  const imagesArr = [waterImg, productImg, conceptImg]
   const canvasRef = useRef()
+  const titleRef = useRef()
 
   // fade in
   useEffect(() => {
-    console.log(canvasRef.current)
+    // title
+    gsap.to(titleRef.current, {
+      opacity: 1,
+      x: 0,
+      duration: 1.6,
+      delay: 0.3,
+      ease: "power.inOut",
+    })
+
+    // canvas
     gsap.to(canvasRef.current, {
       opacity: 1,
       y: 0,
       duration: 2.4,
-      delay: 0.5,
+      delay: 0.6,
       ease: "power.inOut",
     })
   }, [])
 
   return (
     <div className="relative pt-[10vh] overflow-hidden">
+      <div className="overflow-hidden fixed top-0 left-1/2 -translate-x-1/2 z-50">
+        <h1 className="text-[7vw] font-bold whitespace-nowrap leading-none opacity-0 translate-x-[100%]" ref={titleRef}>
+          Water Ripple Effect
+        </h1>
+      </div>
       <div className="pointer-events-none">
         <div className="w-full object-cover bg-[#f7f7f7]">
           <img src={BgImg} alt="" className="absolute top-0 left-0 z-0" />
