@@ -1,4 +1,4 @@
-import { Suspense, useRef } from "react"
+import { Suspense, useEffect, useRef } from "react"
 import { Texture, TextureLoader } from "three"
 import { Canvas, useLoader, extend, useFrame } from "@react-three/fiber"
 import { shaderMaterial } from "@react-three/drei"
@@ -8,7 +8,7 @@ import waterImg from "../images/about_picture.jpg"
 import productImg from "../images/firstview_picture_4.jpg"
 import { gsap } from "gsap"
 
-const WaveShaderMaterial = shaderMaterial({ uTexture: new Texture(), repeats: 1, wireframe: false, uTime: 0, uProg: 0 }, vertexShader, fragmentShader)
+const WaveShaderMaterial = shaderMaterial({ uTexture: new Texture(), repeats: 1, wireframe: false, uTime: 0, noiseAmp: 0.045 }, vertexShader, fragmentShader)
 
 extend({ WaveShaderMaterial })
 
@@ -18,10 +18,20 @@ const Wave = ({ waveImage, freq }) => {
 
   const [image] = useLoader(TextureLoader, [waveImage])
 
+  // onload water animation
+  useEffect(() => {
+    gsap.to(ref.current, {
+      duration: 4,
+      delay: 1,
+      noiseAmp: 0.002,
+      ease: "power.inOut",
+    })
+  }, [])
+
   const handlePointerOver = () => {
     gsap.to(ref.current, {
-      duration: 2,
-      uProg: 0.03,
+      duration: 1.5,
+      noiseAmp: 0.03,
       ease: "power.inOut",
     })
   }
@@ -29,7 +39,7 @@ const Wave = ({ waveImage, freq }) => {
   const handlePointerOut = () => {
     gsap.to(ref.current, {
       duration: 2,
-      uProg: 0.005,
+      noiseAmp: 0.005,
       ease: "power.inOut",
     })
   }

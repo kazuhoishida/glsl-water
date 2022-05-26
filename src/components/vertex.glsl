@@ -3,7 +3,7 @@ precision mediump float;
 
 varying vec2 vUv;
 uniform float uTime;
-uniform float uProg;
+uniform float noiseAmp;
 
 //
 // Description : Array and textureless GLSL 2D/3D/4D simplex
@@ -112,7 +112,6 @@ void main() {
 
   vec3 pos = position;
   float noiseFreq = 3.5;
-  float noiseAmp = uProg; 
   vec3 noisePos = vec3(pos.x * noiseFreq + uTime, pos.y, pos.z);
   pos.z += snoise(noisePos) * noiseAmp;
 
