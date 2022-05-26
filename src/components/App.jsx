@@ -49,17 +49,17 @@ const Wave = ({ waveImage, freq }) => {
 
   return (
     <mesh onPointerOver={handlePointerOver} onPointerOut={handlePointerOut}>
-      <planeGeometry args={[3, 2, 64, 64]} />
+      <planeGeometry args={[3, 2, 32, 32]} />
       <waveShaderMaterial ref={ref} uTexture={image} freq={freq} />
     </mesh>
   )
 }
 
-const Scene = ({ thumbnail, noiseFreq }) => {
+const Scene = ({ thumbnail }) => {
   return (
     <Canvas camera={{ position: [0, 0, 0.3] }}>
       <Suspense fallback={null}>
-        <Wave waveImage={thumbnail} freq={noiseFreq} />
+        <Wave waveImage={thumbnail} freq={2.4} />
       </Suspense>
     </Canvas>
   )
@@ -76,9 +76,9 @@ export default function App() {
     gsap.to(titleRef.current, {
       opacity: 1,
       x: 0,
-      duration: 1.6,
+      duration: 1.7,
       delay: 0.3,
-      ease: "power.inOut",
+      ease: "Expo.easeOut",
     })
 
     // canvas
@@ -92,14 +92,14 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative pt-[10vh] overflow-hidden">
+    <div className="relative pt-[10vh] overflow-hidden bg-[#f7f7f7]">
       <div className="overflow-hidden fixed top-0 left-1/2 -translate-x-1/2 z-50">
         <h1 className="text-[7vw] font-bold whitespace-nowrap leading-none opacity-0 translate-x-[100%]" ref={titleRef}>
           Water Ripple Effect
         </h1>
       </div>
       <div className="pointer-events-none">
-        <div className="w-full object-cover bg-[#f7f7f7]">
+        <div className="w-full object-cover">
           <img src={BgImg} alt="" className="absolute top-0 left-0 z-0" />
           <img src={FrontImg} alt="" className="absolute top-0 left-0 z-50" />
         </div>
@@ -107,7 +107,7 @@ export default function App() {
       <section className="w-[90vw] mx-auto z-10 opacity-0 translate-y-10" ref={canvasRef}>
         {imagesArr.map((image) => (
           <div className="mb-14 h-[30vh]" key={image}>
-            <Scene thumbnail={image} noiseFreq={1.2} />
+            <Scene thumbnail={image} />
           </div>
         ))}
       </section>
